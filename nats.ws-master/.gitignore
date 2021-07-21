@@ -1,0 +1,35 @@
+# Logs
+npm-debug.log*
+.DS_STORE
+
+# generated files
+build/
+lib/
+.idea/
+certs/
+!test/certs/
+.deps/
+cjs-build/
+cjs-wst/
+nats-base-client/
+
+nats-server
+nats.js
+
+# nyc test coverage
+.nyc_output
+coverage/
+
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# ide crud
+vcs.xml
+
+issues/
+**.creds
+
+debug/

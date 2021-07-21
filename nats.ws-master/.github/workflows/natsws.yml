@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - '*'
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node-version: [16.x]
+    environment: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout NATS.ws
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Use Deno Version ${{ matrix.deno-version }}
+        uses: denolib/setup-deno@master
+        with:
+          deno-version: 1.10.3
+      - name: Set NATS Server Version
+        run: echo "NATS_VERSION=v2.3.0" >> $GITHUB_ENV
+      - name: Get nats-server
+        run: |
+          wget "https://github.com/nats-io/nats-server/releases/download/$NATS_VERSION/nats-server-$NATS_VERSION-linux-amd64.zip" -O tmp.zip
+          unzip tmp.zip
+          mv nats-server-$NATS_VERSION-linux-amd64 nats-server
+      - name: Setup NPM
+        run: npm ci
+      - name: Build Library
+        run: npm run build
+      - name: Run Tests
+        env:
+          CI: true
+          WS_NGS_CI_USER: ${{ secrets.WS_NGS_CI_USER }}
+        run: npm test
+
+#      - name: Gather coverage
+#        if: matrix.node-version == '15.x'
+#        run: npm run coveralls
+#      - name: Upload coverage
+#        uses: coverallsapp/github-action@v1.1.2
+#        if: matrix.node-version == '15.x'
+#        with:
+#          github-token: ${{ secrets.github_token }}
+#          path-to-lcov: ./coverage/lcov.info
