@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          crossorigin="anonymous">
+</head>
+<body>
+<script type="module" src="./bench.js"></script>
+<div class="container">
+    <h1 id="title">WS NATS Browser Performance</h1>
+    <label for="server">NATS Websocket Server</label>
+    <input type="text" class="form-control" id="server" placeholder="server" autocomplete="off"
+           value="localhost:9222"><br/>
+    <label for="ws">Use ws:// (uncheck for wss://)</label>
+    <input type="checkbox" class="form-check-input" id="ws" value="true" checked><br/>
+    <label for="subject">Subject</label>
+    <input type="text" class="form-control" id="subject" placeholder="subject" autocomplete="off" value="foo"><br/>
+    <label for="count">Count</label>
+    <input type="number" class="form-control" id="count" placeholder="messages" autocomplete="off"
+           value="100000"><br/>
+    <label for="payload">Payload size</label>
+    <input type="number" class="form-control" id="payload" placeholder="payload size in bytes" autocomplete="off"
+           value="0"><br/>
+    <label for="callbacks">Use callbacks</label>
+    <input type="checkbox" class="form-check-input" id="callbacks" value="true" checked><br/>
+
+
+    <h3>Test</h3>
+    <div class="radio-inline">
+        <label><input class="form-check-input" type="radio" value="pubsub" checked id="pubsub"
+                      name="test">Pub/Sub</label>
+    </div>
+    <div class="radio-inline">
+        <label><input class="form-check-input" type="radio" value="pub" id="pub" name="test">Publish</label>
+    </div>
+    <div class="radio-inline">
+        <label><input class="form-check-input" type="radio" value="sub" id="sub" name="test">Subscribe</label>
+    </div>
+    <div class="radio-inline">
+        <label><input class="form-check-input" type="radio" value="sub" id="req" name="test">ReqRep</label>
+    </div>
+
+    <br/><br/>
+    <button id="send" onclick="benchapp.run()" class="btn btn-primary">Start</button>
+</div>
+<br/>
+<div class="container">
+    <pre id="results"></pre>
+</div>
+
+</body>
+</html>
+
+
+
+
